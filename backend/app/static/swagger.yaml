@@ -1,0 +1,60 @@
+swagger: "2.0"
+info:
+  description: "API for the energy monitoring service"
+  version: "1.0.0"
+  title: "Energy Monitoring Service API"
+host: "localhost:5000"
+schemes:
+  - "http"
+paths:
+  /api/energy-consumption:
+    get:
+      summary: "Get aggregated energy consumption data"
+      description: "Returns aggregated energy consumption data"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                time:
+                  type: "string"
+                consumption_W:
+                  type: "integer"
+        401:
+          description: "Unauthorized"
+  /api/store-energy-consumption:
+    post:
+      summary: "Store energy consumption data and calculate aggregates"
+      description: "Stores energy consumption data and calculates aggregates"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Energy consumption data"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                device_id:
+                  type: "string"
+                consumption_time:
+                  type: "string"
+                energy_consumption_W:
+                  type: "integer"
+                energy_consumption_kW:
+                  type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid input"
+        401:
+          description: "Unauthorized"
